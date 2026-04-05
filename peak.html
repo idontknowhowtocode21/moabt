@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peek Monitor</title>
+    <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        #info-container {
+            border: 2px solid #333;
+            padding: 30px;
+            border-radius: 15px;
+            background: #1e1e1e;
+            width: 80%;
+            max-width: 400px;
+        }
+        .label { color: #888; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px; }
+        .data { font-size: 2rem; font-weight: bold; margin-bottom: 20px; color: #00ff88; }
+        .page-num { font-size: 1.2rem; color: #555; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="info-container">
+        <div class="label">First Word</div>
+        <div id="first-word" class="data">---</div>
+
+        <div class="label">Last Word</div>
+        <div id="last-word" class="data">---</div>
+
+        <div class="label">Anagrams / Notes</div>
+        <div id="anagrams" class="data" style="font-size: 1.5rem; color: #ffcc00;">---</div>
+
+        <div id="page-display" class="page-num">Waiting for scroll...</div>
+    </div>
+
+    <script>
+        // --- PUSHER SETUP ---
+        // Replace 'YOUR_KEY' and 'ap2' with your actual Pusher details
+        const pusher = new Pusher('8787a349786209dd1734', {
+            cluster: 'ap2'
+        });
+
+        const channel = pusher.subscribe('book-channel');
+
+        // Listen for the "scroll-event"
+        channel.bind('scroll-event', function(data) {
+            document.getElementById('first-word').innerText = data.firstWord || "N/A";
+            document.getElementById('last-word').innerText = data.lastWord || "N/A";
+            document.getElementById('anagrams').innerText = data.anagrams || "None";
+            document.getElementById('page-display').innerText = "Page: " + data.page;
+            
+            // Haptic feedback (vibration) if supported on your phone
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        });
+    </script>
+</body>
+</html>
