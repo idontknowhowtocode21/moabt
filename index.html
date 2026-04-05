@@ -1,45 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Online Book Reader</title>
+    <title>E-Book Reader</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #333; }
-        #viewer-container { width: 100%; height: 100%; -webkit-overflow-scrolling: touch; overflow-y: scroll; }
-        canvas { display: block; margin: 10px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.5); width: 95% !important; height: auto !important; }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #1a1a1a; }
+        #wrapper { width: 100%; height: 100%; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+        iframe { width: 100%; height: 10000px; border: none; } /* Huge height to force scroll */
     </style>
 </head>
 <body>
+    <div id="wrapper">
+        <iframe src="https://docs.google.com/viewer?url=https://ia902903.us.archive.org/12/items/FantasyFictionebookcollection/Harry%20Potter/4%20-%20Harry%20Potter%20and%20the%20Goblet%20of%20Fire.pdf&embedded=true"></iframe>
+    </div>
 
-    <div id="viewer-container">
-        </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
     <script src="script.js"></script>
-
-    <script>
-        // PDF.js worker setup
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        const url = 'https://ia902903.us.archive.org/12/items/FantasyFictionebookcollection/Harry%20Potter/4%20-%20Harry%20Potter%20and%20the%20Goblet%20of%20Fire.pdf';
-        const container = document.getElementById('viewer-container');
-
-        // Load and render the PDF
-        pdfjsLib.getDocument(url).promise.then(pdf => {
-            for (let i = 1; i <= pdf.numPages; i++) {
-                pdf.getPage(i).then(page => {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    container.appendChild(canvas);
-                    page.render({ canvasContext: context, viewport: viewport });
-                });
-            }
-        });
-    </script>
 </body>
 </html>
