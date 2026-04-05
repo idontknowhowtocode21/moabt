@@ -4,7 +4,7 @@ if (ua.indexOf("iphone") > -1) document.body.classList.add('ios-safari');
 else if (ua.indexOf("android") > -1) document.body.classList.add('android-chrome');
 
 // The Signal (Pusher.com)
-const pusher = new Pusher('YOUR_FREE_KEY', { cluster: 'mt1' });
+const pusher = new Pusher('8787a349786209dd1734', { cluster: 'ap2' });
 const channel = pusher.subscribe('magic-channel');
 
 let startY = 0;
